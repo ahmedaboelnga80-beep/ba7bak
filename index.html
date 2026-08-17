@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عايزاك تعرف إني بحبك ❤️</title>
+    <meta name="description" content="موقع خاص لذكرياتنا الجميلة وحبنا الدائم">
+    
+    <!-- Google Fonts for Arabic Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Marhey:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Canvas Confetti for Quiz Victory -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <!-- Background Particle Canvas for Floating Hearts -->
+    <canvas id="hearts-canvas"></canvas>
+
+    <!-- Floating Audio Control -->
+    <button id="music-toggle" class="floating-music-btn" aria-label="تشغيل الموسيقى" title="تشغيل الموسيقى 🎵">
+        <span class="music-icon">🎵</span>
+        <span class="music-waves">
+            <span></span><span></span><span></span>
+        </span>
+    </button>
+
+    <!-- Main Container -->
+    <main class="app-container">
+
+        <!-- 1. Hero Section -->
+        <section class="hero-section">
+            <div class="card hero-card">
+                <div class="heart-container">
+                    <span class="main-heart-emoji">❤️</span>
+                </div>
+                <h1 class="hero-title">عايزاك تعرف إني بحبك</h1>
+                <p class="hero-subtitle">وإنك أجمل حاجة حصلت في حياتي ✨</p>
+                
+                <div class="scroll-down-hint">
+                    <span>انزل تحت ونشوف ذكرياتنا</span>
+                    <div class="arrow-bounce">👇</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Relationship Timer Section -->
+        <section class="timer-section">
+            <div class="card timer-card">
+                <h2 class="timer-heading">بقالنا مع بعض ❤️</h2>
+                <div class="timer-grid">
+                    <div class="timer-unit">
+                        <span id="days-val" class="timer-number">0</span>
+                        <span class="timer-label">يوم</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span id="hours-val" class="timer-number">00</span>
+                        <span class="timer-label">ساعة</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span id="mins-val" class="timer-number">00</span>
+                        <span class="timer-label">دقيقة</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span id="secs-val" class="timer-number">00</span>
+                        <span class="timer-label">ثانية</span>
+                    </div>
+                </div>
+                <p class="timer-quote">وكل ثانية بتعدي، بحبك أكتر ❤️</p>
+            </div>
+        </section>
+
+        <!-- 3. Our Lovely Memories Section (Double Tap Flip Gallery) -->
+        <section class="memories-section">
+            <h2 class="section-title">Our Lovely Memories ❤️</h2>
+            <p class="section-subtitle">✨ دوس على الصورة مرتين (Double Tap)</p>
+
+            <div class="gallery-wrapper">
+                <!-- 3D Flip Card Container -->
+                <div class="flip-card" id="memory-flip-card">
+                    <div class="flip-card-inner" id="flip-card-inner">
+                        <!-- Front Side: Image -->
+                        <div class="flip-card-front">
+                            <img id="gallery-img" src="" alt="Love Memory Photo" loading="lazy">
+                            <div class="double-tap-badge">✨ اضغط مرتين لرؤية الرسالة</div>
+                        </div>
+                        <!-- Back Side: Romantic Note -->
+                        <div class="flip-card-back">
+                            <div class="back-card-content">
+                                <div class="card-back-icon">💌</div>
+                                <h3 id="gallery-note-title">ذكرى غالية</h3>
+                                <p id="gallery-note-text" class="back-text">رسالة الحب...</p>
+                                <span class="card-back-hint">اضغط مرتين للعودة للصورة 🔄</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Navigation Controls -->
+                <div class="gallery-controls">
+                    <button id="prev-img-btn" class="nav-btn btn-secondary">Previous</button>
+                    <span id="gallery-counter" class="gallery-counter">1 / 31</span>
+                    <button id="next-img-btn" class="nav-btn btn-primary">Next ❤️</button>
+                </div>
+
+                <!-- Thumbnail Strip -->
+                <div class="thumbnails-container" id="thumbnails-container">
+                    <!-- Thumbnails dynamically rendered via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Interactive Quiz Section -->
+        <section class="quiz-section">
+            <div class="card quiz-card" id="quiz-card">
+                <div class="quiz-header">
+                    <span id="quiz-step-label" class="step-label">Question 1 / 6</span>
+                </div>
+
+                <!-- Active Question Container -->
+                <div id="quiz-question-container">
+                    <!-- Dynamic Question Content -->
+                </div>
+
+                <!-- Reaction Modal Overlay inside Card -->
+                <div id="quiz-reaction-overlay" class="quiz-reaction-overlay hidden">
+                    <div class="reaction-card">
+                        <div id="reaction-emoji" class="reaction-emoji">🥰</div>
+                        <h3 id="reaction-title" class="reaction-title">برافوووو عليك ❤️</h3>
+                        <p id="reaction-desc" class="reaction-desc">إيه الجمال ده 😂❤️</p>
+                        <button id="reaction-next-btn" class="btn-primary reaction-btn">السؤال التالي ➡️</button>
+                    </div>
+                </div>
+
+                <!-- Quiz Results Container -->
+                <div id="quiz-result-container" class="quiz-result hidden">
+                    <div class="result-emoji">❤️</div>
+                    <h2 class="result-title">خلصنا الأسئلة 🥺</h2>
+                    <div id="result-score" class="result-score">نتيجتك: 6 / 6</div>
+                    <p id="result-feedback" class="result-feedback">برافو عليك يا حبيبي ❤️ حافظني كويس جداً!</p>
+                    <button id="quiz-retry-btn" class="btn-secondary retry-btn">إعادة الاختبار 🔄</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Love Letter Sealed Envelope Section -->
+        <section class="envelope-section">
+            <div class="envelope-wrapper">
+                <div class="envelope-card" id="envelope-card">
+                    <div class="envelope-header">
+                        <span class="envelope-icon">💌</span>
+                        <h2>رسالة من قلبي ليك</h2>
+                        <p>اضغط للفتح واقرأ رسالتي ❤️</p>
+                    </div>
+                    <div class="envelope-body hidden" id="envelope-body">
+                        <p class="letter-paragraph">
+                            حبيبي الغالي، شكراً على كل لحظة حلوة عشناها سوا، وعلى كل ابتسامة رسمتها على وشي. وجودك في حياتي بيخلي كل حاجة أجمل وأحلى. بفضل ربنا جنبك دايماً ونفضل نجمع ذكريات كتيرة مع بعض. بحبك جداً ❤️✨
+                        </p>
+                    </div>
+                    <button id="envelope-btn" class="btn-primary envelope-toggle-btn">افتح الرسالة 💖</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Footer Section -->
+        <footer class="app-footer">
+            <p>صنع بكل الحب 💖 | ذكرياتنا الجميلة</p>
+            <a id="whatsapp-share-btn" class="whatsapp-btn" href="#" target="_blank" rel="noopener">
+                <span>ابعتلي رسالة على الواتساب 💬</span>
+            </a>
+        </footer>
+
+    </main>
+
+    <!-- JavaScript Modules -->
+    <script src="js/hearts.js"></script>
+    <script src="js/music.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
