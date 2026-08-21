@@ -6,8 +6,8 @@
     const musicBtn = document.getElementById('music-toggle');
     if (!musicBtn) return;
 
-    // Create Audio instance with the new romantic song
-    const bgAudio = new Audio('src/assets/song.mp3');
+    // Create Audio instance with the new romantic song (with cache buster)
+    const bgAudio = new Audio('src/assets/song.mp3?v=2');
     bgAudio.loop = true;
     bgAudio.volume = 0.7;
 
