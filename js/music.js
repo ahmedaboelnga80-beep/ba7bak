@@ -1,76 +1,55 @@
 /* ==========================================================================
-   ROMANTIC BACKGROUND MUSIC PLAYER (WEB AUDIO SYNTHESIZER MELODY)
+   ROMANTIC BACKGROUND MUSIC PLAYER
    ========================================================================== */
 
 (function initMusicPlayer() {
     const musicBtn = document.getElementById('music-toggle');
     if (!musicBtn) return;
 
+    // Create Audio instance with the new romantic song
+    const bgAudio = new Audio('src/assets/song.mp3');
+    bgAudio.loop = true;
+    bgAudio.volume = 0.7;
+
     let isPlaying = false;
-    let audioCtx = null;
-    let timerId = null;
 
-    // Soft romantic ambient notes (Pentatonic scale: C4, D4, E4, G4, A4, C5, E5)
-    const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 659.25];
-
-    function playSoftNote() {
-        if (!isPlaying || !audioCtx) return;
-        try {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-
-            // Pick a random soft romantic pitch
-            const freq = notes[Math.floor(Math.random() * notes.length)];
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-            // Envelope for gentle sound
-            gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.4);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2.5);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start();
-            osc.stop(audioCtx.currentTime + 2.6);
-        } catch (e) {
-            console.error("Audio error:", e);
-        }
+    function playAudio() {
+        bgAudio.play().then(() => {
+            isPlaying = true;
+            musicBtn.classList.add('playing');
+            musicBtn.setAttribute('title', 'إيقاف الموسيقى 🎵');
+        }).catch((err) => {
+            console.log('Autoplay prevented or audio error:', err);
+            isPlaying = false;
+            musicBtn.classList.remove('playing');
+            musicBtn.setAttribute('title', 'تشغيل الموسيقى 🎵');
+        });
     }
 
-    function startMusic() {
-        if (!audioCtx) {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
-        }
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
-        isPlaying = true;
-        musicBtn.classList.add('playing');
-        musicBtn.setAttribute('title', 'إيقاف الموسيقى 🎵');
-
-        // Play notes every 800ms
-        playSoftNote();
-        timerId = setInterval(playSoftNote, 850);
-    }
-
-    function stopMusic() {
+    function pauseAudio() {
+        bgAudio.pause();
         isPlaying = false;
         musicBtn.classList.remove('playing');
         musicBtn.setAttribute('title', 'تشغيل الموسيقى 🎵');
-        if (timerId) {
-            clearInterval(timerId);
-            timerId = null;
-        }
     }
 
-    musicBtn.addEventListener('click', () => {
+    musicBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent document click listener from double toggling
         if (isPlaying) {
-            stopMusic();
+            pauseAudio();
         } else {
-            startMusic();
+            playAudio();
         }
     });
+
+    // Auto-start audio on first interaction if autoplay policy allows
+    const enableAutoPlayOnInteraction = () => {
+        if (!isPlaying) {
+            playAudio();
+        }
+    };
+
+    document.addEventListener('click', enableAutoPlayOnInteraction, { once: true });
+    document.addEventListener('touchstart', enableAutoPlayOnInteraction, { once: true });
 })();
+
