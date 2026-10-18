@@ -1,109 +1,502 @@
 /* ==========================================================================
-   OUR LOVELY MEMORIES (INTERACTIVE DOUBLE-TAP 3D FLIP GALLERY)
+   OUR LOVELY MEMORIES (INTERACTIVE 3D FLIP GALLERY + RANDOM SHUFFLE & AUTOPLAY)
    ========================================================================== */
 
 (function initGallery() {
-    const memoryImages = [
-        { src: "src/assets/IMG_4832.PNG", title: "أجمل النظرات ✨", note: "كل مرة بشوف عينيكي بحس إني اتولدت من جديد. أنتي أجمل اختيار في حياتي ❤️" },
-        { src: "src/assets/IMG_3978.JPG", title: "ضحكتك بالدنيا 🌸", note: "ضحكتك دي هي السر اللي بيخليني مبسوط وفرحان مهما كانت الظروف ✨" },
-        { src: "src/assets/IMG_3979.JPG", title: "ذكريات متتنساش 💖", note: "نفسي الأيام الجاية تكون أحلى من اللي فات، ونفضل جنب بعض، ونجمع صور وذكريات أكتر، ونفتكرها وإحنا مبسوطين ❤️" },
-        { src: "src/assets/IMG_3981.JPG", title: "مع بعض دايماً 👫", note: "وجودك جنبي هو الأمان والراحة اللي بدور عليها من زمان." },
-        { src: "src/assets/PHOTO-20268-165-37-58.jpg", title: "أحلى يوم ❤️", note: "اليوم ده كان من أسعد أيام حياتي لما كنا سوا والضحكة مش مفارقة وشنا ✨" },
-        { src: "src/assets/PHOTO-20268-165-37-58 (2).jpg", title: "فرحة قلبي 🥰", note: "أنتي المشاعر الحلوة وكل حاجة طيبة وبتحسسني بالدفا." },
-        { src: "src/assets/PHOTO-20268-165-37-58 (3).jpg", title: "سند وعزوة 💞", note: "شكراً إنك دايماً واقفه جنبي وبتحبيني بصدق." },
-        { src: "src/assets/PHOTO-20268-165-37-59.jpg", title: "نصفي الثاني 🌹", note: "مش مجرد حبيب، أنتي روحي ونفسي ودنيتي كلها." },
-        { src: "src/assets/PHOTO-20268-165-37-59 (2).jpg", title: "أوقات هادية ✨", note: "الهدوء والراحة اللي بحسهم معاكي مفيش زيّهم في العالم." },
-        { src: "src/assets/PHOTO-20268-165-37-59 (3).jpg", title: "حب للأبد 🔒", note: "وعد مني هفضل أحبك وأحافظ عليكي طول ما أنا بتنفس." },
-        { src: "src/assets/PHOTO-20268-165-37-59 (4).jpg", title: "ابتسامة دافية 🌺", note: "ابتسامتك بتنور عيوني بتشيل أي تعب أو هم." },
-        { src: "src/assets/PHOTO-20268-165-37-59 (5).jpg", title: "حكايتنا الحلوة 📖", note: "كل يوم بيعدي معانا بيكتب صفحة جديدة في قصة حبنا." },
-        { src: "src/assets/PHOTO-20268-165-380.jpg", title: "مغادرتنا سوا 🚀", note: "أينما ذهبنا، طول ما إحنا ايدينا في ايد بعض فالمكان هو الجنة." },
-        { src: "src/assets/PHOTO-20268-165-380 (2).jpg", title: "لحظات المطر 🌧️", note: "حتى في الأيام الصعبة، وجودك بيخلي كل حاجة تعدي بسلام." },
-        { src: "src/assets/PHOTO-20268-165-380 (3).jpg", title: "سعادة القلب ❤️", note: "قلبي بيرقص فرحة كل ما اسمك ييجي في بالي." },
-        { src: "src/assets/PHOTO-20268-165-380 (4).jpg", title: "نورك في حياتي 💡", note: "أنتي النور اللي بيهديني في العتمة وبيعيدلي أملي." },
-        { src: "src/assets/PHOTO-20268-165-383.jpg", title: "أحلى الذكريات 📸", note: "كل صورة لينا حكاية وحب ملهوش حدود." },
-        { src: "src/assets/PHOTO-20268-165-387.jpg", title: "أنشطتنا سوا 🎈", note: "الفرحة البسيطة معاكي بتسوى الدنيا وما فيها." },
-        { src: "src/assets/PHOTO-20268-165-387 (2).jpg", title: "عشق لا ينتهي 💘", note: "كل يوم بحبك فيه أكتر من اليوم اللي قبله." },
-        { src: "src/assets/PHOTO-20268-165-387 (3).jpg", title: "أنتِ وطني ✨", note: "معاكي بحس إني وصلت بيتي ومكاني الصح." },
-        { src: "src/assets/PHOTO-20268-165-387 (4).jpg", title: "حلم حياتي 🌟", note: "أنتي الحلم اللي تمنيته من زمان وربنا حققهولي." },
-        { src: "src/assets/PHOTO-20268-165-387 (5).jpg", title: "بين يديك 🤲", note: "لما بمسك ايديكي بحس إني ملكت العالم كله." },
-        { src: "src/assets/PHOTO-20268-165-388.jpg", title: "مستقبلنا الباهر 💍", note: "إن شاء الله الجاي أحلى وأجمل بكتير معاك." },
-        { src: "src/assets/PHOTO-20268-17-13-12-41.jpg", title: "نظرة حب 💞", note: "نظرتك ليّا بتغنيني عن كل كلام الدنيا." },
-        { src: "src/assets/PHOTO-20268-126-530.jpg", title: "حب بلا شروط 💖", note: "بحبك بكل تفاصيلك وبكل حركاتك الجميلة." },
-        { src: "src/assets/PHOTO-20268-127-20-40.jpg", title: "الرفيق والروح 🕊️", note: "أنتي الصديق والحبيب وكل عيلتي ودنيتي." },
-        { src: "src/assets/5ce096e6-c9c7-4429-8d77-4ea16f4e8752.JPG", title: "لحظة العناق 🫂", note: "حضنك هو المكان الوحيد اللي بيريح قلبي من تعب الدنيا." },
-        { src: "src/assets/7cf60b9b-10d0-46b8-a2dc-306a1cdfdb04.JPG", title: "سر سعادتي 🔑", note: "أنتي السر اللي بيبتسملي قلبي بسببه كل يوم." },
-        { src: "src/assets/db4272b8-c95e-4f02-ae89-6c689642fc4e.JPG", title: "جمال روحك 🌿", note: "جمالك الخارجي مفيش زيّه، وجمال روحك أعظم بكتير." },
-        { src: "src/assets/eb78f176-deb8-4a10-9985-254695234400.JPG", title: "أيامنا المشرقة ☀️", note: "الشمس بتشرق في حياتي بوجودك ورؤية ضحكتك." },
-        { src: "src/assets/fd0c0d23-a12d-4910-ae56-cfd9c0c680cd.JPG", title: "حبي الأبدي ❤️", note: "مهما طال العمر سأظل أحبك وأعشق وجودك بجانبي." },
-        { src: "src/assets/41aed9d7-b42c-4e00-a7ef-0460abc5985d.JPG", title: "عيونك أماني 🌟", note: "في كل نظرة ليكي بحس براحة بتملى روحي، أنتي سندي وأجمل ما في أيامي ❤️" },
-        { src: "src/assets/5cef5429-d353-4ae0-8b56-47827f8fa0cd.JPG", title: "دفا الحب ❤️", note: "وجودك جنبي هو الدفا في عز البرد، والراحة بعد كل تعب ومجهود ✨" },
-        { src: "src/assets/93679343-8133-4a02-b32b-48281218bc1c.JPG", title: "ضحكة من القلب 🌸", note: "لما بتضحكي الدنيا كلها بتضحكلي، بحب تفاصيلك وعفويتك جداً 🥰" },
-        { src: "src/assets/9c4431dc-32bc-4299-93a7-96ee75728c68.JPG", title: "أحلى صدفة وصحبة 🌹", note: "أجمل صدفة جمعتني بيكي، والنهاردة أنتي أغلى حب وأعز رفيق في مشوار الحياة 💖" },
-        { src: "src/assets/b8fc7bfa-f928-42b8-984d-901a7a58db03.JPG", title: "روحي معاكي 🕊️", note: "مهما بعدت المسافات، قلبي وروحي دايماً حاضرين معاكي في كل دقيقة وثانية ✨" },
-        { src: "src/assets/IMG_8518.jpg", title: "إشراقة يومي ☀️", note: "يومي مبيكملش غير بيكي وبكلامك الحلو اللي بيطمن قلبي ويملاني طاقة وحياة 💖" },
-        { src: "src/assets/IMG_8519.jpg", title: "نبض الفرحة 💖", note: "معاكي اتعلمت يعني إيه حب حقيقي ملوش شروط ولا حدود، حب أبدي لا ينتهي ❤️" },
-        { src: "src/assets/IMG_8520.jpg", title: "ملاكي الجميل 🌸", note: "ملامحك الهادية بتسحرني كل يوم من جديد، ربنا يحفظك ليا ويديم وجودك في عمري 🤲" },
-        { src: "src/assets/IMG_8521.jpg", title: "قربي منك حياة 💞", note: "كل ثانية بقضيها جنبك بتسوى سنين من عمري، بحبك لأخر نفس في عمري 🥰" },
-        { src: "src/assets/IMG_8749.jpg", title: "عالمي الخاص 🔒", note: "أنتي العالم الهادي اللي بهرب ليه لما أحب أكون مبسوط ومرتاح من كل دوشة الدنيا ✨" },
-        { src: "src/assets/IMG_8758.jpg", title: "حلم تحقق 🌟", note: "كنتي دعوة في صلاتي وربنا استجابها وبقيتي أجمل نصيب وأحلى رزق في حياتي ❤️" },
-        { src: "src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE_still.jpg", title: "لقطة من العمر 📸", note: "الصورة دي فيها حكاية حب متتقدرش بتمن، دايماً محفورة في الذاكرة والوجدان 💖" },
-        { src: "src/assets/gemini_generated_video_A41414DF_still.jpg", title: "جمال لا يوصف 💐", note: "كل ما ببص في الصورة دي بفتكر قد إيه إحنا الاتنين اتخلقنا لبعض ولايقين على بعض جداً ✨" }
-    ];
+    const rawItems = [
+    {
+        "src": "src/assets/IMG_4832.PNG",
+        "title": "أجمل النظرات ✨",
+        "note": "كل مرة بشوف عينيكي بحس إني اتولدت من جديد. أنتي أجمل اختيار في حياتي ❤️"
+    },
+    {
+        "src": "src/assets/IMG_3978.JPG",
+        "title": "ضحكتك بالدنيا 🌸",
+        "note": "ضحكتك دي هي السر اللي بيخليني مبسوط وفرحان مهما كانت الظروف ✨"
+    },
+    {
+        "src": "src/assets/IMG_3979.JPG",
+        "title": "ذكريات متتنساش 💖",
+        "note": "نفسي الأيام الجاية تكون أحلى من اللي فات، ونفضل جنب بعض، ونجمع صور وذكريات أكتر، ونفتكرها وإحنا مبسوطين ❤️"
+    },
+    {
+        "src": "src/assets/IMG_3981.JPG",
+        "title": "مع بعض دايماً 👫",
+        "note": "وجودك جنبي هو الأمان والراحة اللي بدور عليها من زمان."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-58.jpg",
+        "title": "أحلى يوم ❤️",
+        "note": "اليوم ده كان من أسعد أيام حياتي لما كنا سوا والضحكة مش مفارقة وشنا ✨"
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-58 (2).jpg",
+        "title": "فرحة قلبي 🥰",
+        "note": "أنتي المشاعر الحلوة وكل حاجة طيبة وبتحسسني بالدفا."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-58 (3).jpg",
+        "title": "سند وعزوة 💞",
+        "note": "شكراً إنك دايماً واقفه جنبي وبتحبيني بصدق."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-59.jpg",
+        "title": "نصفي الثاني 🌹",
+        "note": "مش مجرد حبيب، أنتي روحي ونفسي ودنيتي كلها."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-59 (2).jpg",
+        "title": "أوقات هادية ✨",
+        "note": "الهدوء والراحة اللي بحسهم معاكي مفيش زيّهم في العالم."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-59 (3).jpg",
+        "title": "حب للأبد 🔒",
+        "note": "وعد مني هفضل أحبك وأحافظ عليكي طول ما أنا بتنفس."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-59 (4).jpg",
+        "title": "ابتسامة دافية 🌺",
+        "note": "ابتسامتك بتنور عيوني بتشيل أي تعب أو هم."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-37-59 (5).jpg",
+        "title": "حكايتنا الحلوة 📖",
+        "note": "كل يوم بيعدي معانا بيكتب صفحة جديدة في قصة حبنا."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-380.jpg",
+        "title": "مغادرتنا سوا 🚀",
+        "note": "أينما ذهبنا، طول ما إحنا ايدينا في ايد بعض فالمكان هو الجنة."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-380 (2).jpg",
+        "title": "لحظات المطر 🌧️",
+        "note": "حتى في الأيام الصعبة، وجودك بيخلي كل حاجة تعدي بسلام."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-380 (3).jpg",
+        "title": "سعادة القلب ❤️",
+        "note": "قلبي بيرقص فرحة كل ما اسمك ييجي في بالي."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-380 (4).jpg",
+        "title": "نورك في حياتي 💡",
+        "note": "أنتي النور اللي بيهديني في العتمة وبيعيدلي أملي."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-383.jpg",
+        "title": "أحلى الذكريات 📸",
+        "note": "كل صورة لينا حكاية وحب ملهوش حدود."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-387.jpg",
+        "title": "أنشطتنا سوا 🎈",
+        "note": "الفرحة البسيطة معاكي بتسوى الدنيا وما فيها."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-387 (2).jpg",
+        "title": "عشق لا ينتهي 💘",
+        "note": "كل يوم بحبك فيه أكتر من اليوم اللي قبله."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-387 (3).jpg",
+        "title": "أنتِ وطني ✨",
+        "note": "معاكي بحس إني وصلت بيتي ومكاني الصح."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-387 (4).jpg",
+        "title": "حلم حياتي 🌟",
+        "note": "أنتي الحلم اللي تمنيته من زمان وربنا حققهولي."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-387 (5).jpg",
+        "title": "بين يديك 🤲",
+        "note": "لما بمسك ايديكي بحس إني ملكت العالم كله."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-165-388.jpg",
+        "title": "مستقبلنا الباهر 💍",
+        "note": "إن شاء الله الجاي أحلى وأجمل بكتير معاك."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-17-13-12-41.jpg",
+        "title": "نظرة حب 💞",
+        "note": "نظرتك ليّا بتغنيني عن كل كلام الدنيا."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-126-530.jpg",
+        "title": "حب بلا شروط 💖",
+        "note": "بحبك بكل تفاصيلك وبكل حركاتك الجميلة."
+    },
+    {
+        "src": "src/assets/PHOTO-20268-127-20-40.jpg",
+        "title": "الرفيق والروح 🕊️",
+        "note": "أنتي الصديق والحبيب وكل عيلتي ودنيتي."
+    },
+    {
+        "src": "src/assets/5ce096e6-c9c7-4429-8d77-4ea16f4e8752.JPG",
+        "title": "لحظة العناق 🫂",
+        "note": "حضنك هو المكان الوحيد اللي بيريح قلبي من تعب الدنيا."
+    },
+    {
+        "src": "src/assets/7cf60b9b-10d0-46b8-a2dc-306a1cdfdb04.JPG",
+        "title": "سر سعادتي 🔑",
+        "note": "أنتي السر اللي بيبتسملي قلبي بسببه كل يوم."
+    },
+    {
+        "src": "src/assets/db4272b8-c95e-4f02-ae89-6c689642fc4e.JPG",
+        "title": "جمال روحك 🌿",
+        "note": "جمالك الخارجي مفيش زيّه، وجمال روحك أعظم بكتير."
+    },
+    {
+        "src": "src/assets/eb78f176-deb8-4a10-9985-254695234400.JPG",
+        "title": "أيامنا المشرقة ☀️",
+        "note": "الشمس بتشرق في حياتي بوجودك ورؤية ضحكتك."
+    },
+    {
+        "src": "src/assets/fd0c0d23-a12d-4910-ae56-cfd9c0c680cd.JPG",
+        "title": "حبي الأبدي ❤️",
+        "note": "مهما طال العمر سأظل أحبك وأعشق وجودك بجانبي."
+    },
+    {
+        "src": "src/assets/41aed9d7-b42c-4e00-a7ef-0460abc5985d.JPG",
+        "title": "عيونك أماني 🌟",
+        "note": "في كل نظرة ليكي بحس براحة بتملى روحي، أنتي سندي وأجمل ما في أيامي ❤️"
+    },
+    {
+        "src": "src/assets/5cef5429-d353-4ae0-8b56-47827f8fa0cd.JPG",
+        "title": "دفا الحب ❤️",
+        "note": "وجودك جنبي هو الدفا في عز البرد، والراحة بعد كل تعب ومجهود ✨"
+    },
+    {
+        "src": "src/assets/93679343-8133-4a02-b32b-48281218bc1c.JPG",
+        "title": "ضحكة من القلب 🌸",
+        "note": "لما بتضحكي الدنيا كلها بتضحكلي، بحب تفاصيلك وعفويتك جداً 🥰"
+    },
+    {
+        "src": "src/assets/9c4431dc-32bc-4299-93a7-96ee75728c68.JPG",
+        "title": "أحلى صدفة وصحبة 🌹",
+        "note": "أجمل صدفة جمعتني بيكي، والنهاردة أنتي أغلى حب وأعز رفيق في مشوار الحياة 💖"
+    },
+    {
+        "src": "src/assets/b8fc7bfa-f928-42b8-984d-901a7a58db03.JPG",
+        "title": "روحي معاكي 🕊️",
+        "note": "مهما بعدت المسافات، قلبي وروحي دايماً حاضرين معاكي في كل دقيقة وثانية ✨"
+    },
+    {
+        "src": "src/assets/IMG_8518.jpg",
+        "title": "إشراقة يومي ☀️",
+        "note": "يومي مبيكملش غير بيكي وبكلامك الحلو اللي بيطمن قلبي ويملاني طاقة وحياة 💖"
+    },
+    {
+        "src": "src/assets/IMG_8519.jpg",
+        "title": "نبض الفرحة 💖",
+        "note": "معاكي اتعلمت يعني إيه حب حقيقي ملوش شروط ولا حدود، حب أبدي لا ينتهي ❤️"
+    },
+    {
+        "src": "src/assets/IMG_8520.jpg",
+        "title": "ملاكي الجميل 🌸",
+        "note": "ملامحك الهادية بتسحرني كل يوم من جديد، ربنا يحفظك ليا ويديم وجودك في عمري 🤲"
+    },
+    {
+        "src": "src/assets/IMG_8521.jpg",
+        "title": "قربي منك حياة 💞",
+        "note": "كل ثانية بقضيها جنبك بتسوى سنين من عمري، بحبك لأخر نفس في عمري 🥰"
+    },
+    {
+        "src": "src/assets/IMG_8749.jpg",
+        "title": "عالمي الخاص 🔒",
+        "note": "أنتي العالم الهادي اللي بهرب ليه لما أحب أكون مبسوط ومرتاح من كل دوشة الدنيا ✨"
+    },
+    {
+        "src": "src/assets/IMG_8758.jpg",
+        "title": "حلم تحقق 🌟",
+        "note": "كنتي دعوة في صلاتي وربنا استجابها وبقيتي أجمل نصيب وأحلى رزق في حياتي ❤️"
+    },
+    {
+        "src": "src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE_still.jpg",
+        "title": "لقطة من العمر 📸",
+        "note": "الصورة دي فيها حكاية حب متتقدرش بتمن، دايماً محفورة في الذاكرة والوجدان 💖"
+    },
+    {
+        "src": "src/assets/gemini_generated_video_A41414DF_still.jpg",
+        "title": "جمال لا يوصف 💐",
+        "note": "كل ما ببص في الصورة دي بفتكر قد إيه إحنا الاتنين اتخلقنا لبعض ولايقين على بعض جداً ✨"
+    },
+    {
+        "src": "src/assets/couple_close_up_white_dress_1788895210107.jpg",
+        "title": "نقاء الروح 🤍",
+        "note": "الملامح الهادية اللي بتطمني وتنسيني أي تعب في الدنيا ❤️"
+    },
+    {
+        "src": "src/assets/couple_suit_and_dress_1788891111356.jpg",
+        "title": "شياكة وأناقة سوا ✨",
+        "note": "أحلى وأجمل زوجين في الدنيا، لايقين على بعض في كل تفصيلة 💍"
+    },
+    {
+        "src": "src/assets/couple_white_dress_exact_face_1788891959665.jpg",
+        "title": "جمال العيون 🌸",
+        "note": "عيونك فيها سحر بيخليني أحبك كل يوم أكتر وأكتر 💕"
+    },
+    {
+        "src": "src/assets/IMG_7700.jpg",
+        "title": "ضحكتنا بالدنيا 🌺",
+        "note": "كل ما بشوف الضحكة دي قلبي بيرقص فرحة وسعادة 🥰"
+    },
+    {
+        "src": "src/assets/IMG_7701.jpg",
+        "title": "أمان قلبي 🕊️",
+        "note": "معاكي وبس بحس إني في مكاني الصح وفي أمان تام ❤️"
+    },
+    {
+        "src": "src/assets/IMG_7702.jpg",
+        "title": "حكايات وسهر 🌙",
+        "note": "أحلى الليالي اللي قضيناها كلام وضحك من غير ما نحس بالوقت ✨"
+    },
+    {
+        "src": "src/assets/IMG_7703.jpg",
+        "title": "نصيبي الحلو 💖",
+        "note": "أجمل هدية ربنا بعتهالي، وحبيبتي اللي مليش غيرها 🌹"
+    },
+    {
+        "src": "src/assets/IMG_7704.jpg",
+        "title": "خطوة بخطوة 👫",
+        "note": "في كل مشوار وفي كل طريق إيدي في إيدك لآخر العمر 🔒"
+    },
+    {
+        "src": "src/assets/IMG_7705.jpg",
+        "title": "وردة حياتي 🌹",
+        "note": "أنتي النعمة اللي بشكر ربنا عليها كل يوم في صلاتي 🤲"
+    },
+    {
+        "src": "src/assets/IMG_7706.jpg",
+        "title": "سند وعشق 💞",
+        "note": "حبي ليكي أكبر من مجرد كلام، أنتي كل دنيتي ❤️"
+    },
+    {
+        "src": "src/assets/IMG_7707.jpg",
+        "title": "لحظات هادية ☕",
+        "note": "الهدوء والسكينة اللي بحسها جنبك مفيش منها في الكون ✨"
+    },
+    {
+        "src": "src/assets/IMG_7708.jpg",
+        "title": "فرحة العمر 🎈",
+        "note": "كل يوم معاكي هو عيد وفرحة جديدة لقلبي 🥰"
+    },
+    {
+        "src": "src/assets/IMG_7709.jpg",
+        "title": "نبضات حب 💓",
+        "note": "كل ما بشوفك قلبي بيدق وكأنها أول مرة أشوفك فيها ❤️"
+    },
+    {
+        "src": "src/assets/IMG_7710.jpg",
+        "title": "روح واحدة 🕊️",
+        "note": "إحنا مش اتنين، إحنا روح واحدة في جسدين 💖"
+    },
+    {
+        "src": "src/assets/IMG_7711.jpg",
+        "title": "أحلى صدفة 🌟",
+        "note": "اليوم اللي عرفتك فيه هو بداية حياتي الحقيقية ✨"
+    },
+    {
+        "src": "src/assets/IMG_7712.jpg",
+        "title": "عشقي الأبدي 🔒",
+        "note": "هفضل أحبك لآخر نفس، وبكل ما فيا من طاقة وحب ❤️"
+    },
+    {
+        "src": "src/assets/IMG_7713.jpg",
+        "title": "أجمل ابتسامة 🌸",
+        "note": "ابتسامتك دي بتنور عتمة أي يوم وبتديني أمل جديد 🥰"
+    },
+    {
+        "src": "src/assets/IMG_7718.jpg",
+        "title": "ملامح البراءة 🌿",
+        "note": "طيبة قلبك وجمال روحك هما السر في عشقي ليكي 💖"
+    },
+    {
+        "src": "src/assets/IMG_7719.jpg",
+        "title": "معاكي دايماً 🤝",
+        "note": "في الفرح وفي الحزن، في كل خطوة أنا جنبك وسندك ❤️"
+    },
+    {
+        "src": "src/assets/IMG_7720.jpg",
+        "title": "راحة البال ✨",
+        "note": "قربك مني بيخليني أنسى أي هم وأعيش أسعد إنسان 🌹"
+    },
+    {
+        "src": "src/assets/IMG_7721.jpg",
+        "title": "أنتِ وطني 🏡",
+        "note": "أنتي البيت الدافي والمكان اللي بنتمي ليه بكل كياني 💖"
+    },
+    {
+        "src": "src/assets/IMG_7722.jpg",
+        "title": "عمر وسنين ⏳",
+        "note": "كل ثانية بتعدي وإحنا سوا هي أسعد ثانية في عمري ❤️"
+    },
+    {
+        "src": "src/assets/IMG_7724.jpg",
+        "title": "أغلى ما عندي 💎",
+        "note": "كنز حياتي والجوهرة اللي بحافظ عليها بعيوني 🌸"
+    },
+    {
+        "src": "src/assets/IMG_7725.jpg",
+        "title": "حب بلا حدود ♾️",
+        "note": "حبنا ملوش نهاية، حب صادق ونقي ومكمل للأبد بإذن الله ❤️"
+    },
+    {
+        "src": "src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE.MP4",
+        "poster": "src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE_still.jpg",
+        "type": "video",
+        "title": "ضحكتنا سوا 🎥✨",
+        "note": "لحظات عفوية جميلة، ضحكتك وصوتك هما سر السعادة ❤️"
+    },
+    {
+        "src": "src/assets/gemini_generated_video_54EC7F6C.MP4",
+        "poster": "src/assets/gemini_generated_video_A41414DF_still.jpg",
+        "type": "video",
+        "title": "حكايتنا في فيديو 💖🎬",
+        "note": "كل فيديو بيفكرني بقد إيه إحنا محظوظين ببعض 🌹"
+    }
+];
 
+    let memoryItems = [...rawItems];
     let currentIndex = 0;
+    let autoplayTimer = null;
+    let isAutoplaying = false;
+
     const flipCard = document.getElementById('memory-flip-card');
     const galleryImg = document.getElementById('gallery-img');
+    const galleryVideo = document.getElementById('gallery-video');
     const noteTitle = document.getElementById('gallery-note-title');
     const noteText = document.getElementById('gallery-note-text');
     const counterEl = document.getElementById('gallery-counter');
     const prevBtn = document.getElementById('prev-img-btn');
     const nextBtn = document.getElementById('next-img-btn');
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    const autoplayBtn = document.getElementById('autoplay-btn');
     const thumbsContainer = document.getElementById('thumbnails-container');
 
     if (!flipCard || !galleryImg) return;
 
     // Render Thumbnails
-    memoryImages.forEach((item, idx) => {
-        const img = document.createElement('img');
-        img.src = item.src;
-        img.alt = item.title;
-        img.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
-        img.addEventListener('click', () => {
-            goToSlide(idx);
+    function renderThumbnails() {
+        if (!thumbsContainer) return;
+        thumbsContainer.innerHTML = '';
+        memoryItems.forEach((item, idx) => {
+            const thumbWrap = document.createElement('div');
+            thumbWrap.className = 	humb-wrap ;
+            
+            const img = document.createElement('img');
+            img.src = item.poster || item.src;
+            img.alt = item.title;
+            img.className = 'thumb-item';
+            thumbWrap.appendChild(img);
+
+            if (item.type === 'video') {
+                const badge = document.createElement('span');
+                badge.className = 'thumb-video-badge';
+                badge.textContent = '▶';
+                thumbWrap.appendChild(badge);
+            }
+
+            thumbWrap.addEventListener('click', () => {
+                goToSlide(idx);
+            });
+            thumbsContainer.appendChild(thumbWrap);
         });
-        thumbsContainer.appendChild(img);
-    });
+    }
 
     function updateCardContent() {
-        // Reset flip state
         flipCard.classList.remove('flipped');
         
-        const current = memoryImages[currentIndex];
-        galleryImg.src = current.src;
-        noteTitle.textContent = current.title;
-        noteText.textContent = current.note;
-        counterEl.textContent = `${currentIndex + 1} / ${memoryImages.length}`;
+        const current = memoryItems[currentIndex];
+        
+        if (current.type === 'video') {
+            if (galleryImg) galleryImg.style.display = 'none';
+            if (galleryVideo) {
+                galleryVideo.style.display = 'block';
+                galleryVideo.src = current.src;
+                galleryVideo.poster = current.poster || '';
+                galleryVideo.muted = true;
+                galleryVideo.play().catch(() => {});
+            }
+        } else {
+            if (galleryVideo) {
+                galleryVideo.pause();
+                galleryVideo.style.display = 'none';
+            }
+            if (galleryImg) {
+                galleryImg.style.display = 'block';
+                galleryImg.src = current.src;
+            }
+        }
+
+        if (noteTitle) noteTitle.textContent = current.title;
+        if (noteText) noteText.textContent = current.note;
+        if (counterEl) counterEl.textContent = ${currentIndex + 1} / ;
 
         // Update Thumbnails Active Class
-        const thumbs = thumbsContainer.querySelectorAll('.thumb-item');
-        thumbs.forEach((t, i) => {
-            if (i === currentIndex) {
-                t.classList.add('active');
-                t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            } else {
-                t.classList.remove('active');
-            }
-        });
+        if (thumbsContainer) {
+            const thumbs = thumbsContainer.querySelectorAll('.thumb-wrap');
+            thumbs.forEach((t, i) => {
+                if (i === currentIndex) {
+                    t.classList.add('active');
+                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    t.classList.remove('active');
+                }
+            });
+        }
     }
 
     function goToSlide(index) {
-        currentIndex = (index + memoryImages.length) % memoryImages.length;
+        currentIndex = (index + memoryItems.length) % memoryItems.length;
         updateCardContent();
     }
 
-    // Double Tap / Double Click Flip Detection
+    // Shuffle Array Function (Random Mode)
+    function shuffleGallery() {
+        for (let i = memoryItems.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [memoryItems[i], memoryItems[j]] = [memoryItems[j], memoryItems[i]];
+        }
+        currentIndex = 0;
+        renderThumbnails();
+        updateCardContent();
+
+        if (shuffleBtn) {
+            shuffleBtn.classList.add('btn-sparkle');
+            setTimeout(() => shuffleBtn.classList.remove('btn-sparkle'), 600);
+        }
+    }
+
+    // Autoplay Slideshow
+    function toggleAutoplay() {
+        if (isAutoplaying) {
+            clearInterval(autoplayTimer);
+            isAutoplaying = false;
+            if (autoplayBtn) {
+                autoplayBtn.innerHTML = '▶️ تشغيل';
+                autoplayBtn.classList.remove('active-play');
+            }
+        } else {
+            isAutoplaying = true;
+            if (autoplayBtn) {
+                autoplayBtn.innerHTML = '⏸️ إيقاف';
+                autoplayBtn.classList.add('active-play');
+            }
+            autoplayTimer = setInterval(() => {
+                goToSlide(currentIndex + 1);
+            }, 4500);
+        }
+    }
+
+    // Double Tap Flip Detection
     let lastTap = 0;
     flipCard.addEventListener('touchend', (e) => {
+        // If clicking on video controls, don't flip
+        if (e.target.tagName.toLowerCase() === 'video') return;
         const currentTime = new Date().getTime();
         const tapLength = currentTime - lastTap;
         if (tapLength < 300 && tapLength > 0) {
@@ -113,19 +506,17 @@
         lastTap = currentTime;
     });
 
-    flipCard.addEventListener('dblclick', () => {
+    flipCard.addEventListener('dblclick', (e) => {
+        if (e.target.tagName.toLowerCase() === 'video') return;
         flipCard.classList.toggle('flipped');
     });
 
     // Navigation Buttons
-    prevBtn.addEventListener('click', () => {
-        goToSlide(currentIndex - 1);
-    });
+    if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+    if (shuffleBtn) shuffleBtn.addEventListener('click', shuffleGallery);
+    if (autoplayBtn) autoplayBtn.addEventListener('click', toggleAutoplay);
 
-    nextBtn.addEventListener('click', () => {
-        goToSlide(currentIndex + 1);
-    });
-
-    // Initial Render
-    updateCardContent();
+    // Initial Shuffle to fulfill (شغلها عشوائي) on page load!
+    shuffleGallery();
 })();

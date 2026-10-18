@@ -67,7 +67,7 @@
         const videos = document.querySelectorAll('video');
         videos.forEach(video => {
             video.addEventListener('play', () => {
-                if (isPlaying) {
+                if (!video.muted && isPlaying) {
                     wasPlayingBeforeVideo = true;
                     pauseAudio();
                 }

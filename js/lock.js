@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ROMANTIC PASSCODE LOCK SCREEN (PIN: 1710)
+   ROMANTIC PASSCODE LOCK SCREEN (PIN: 1710) - ALWAYS ACTIVE ON LOAD
    ========================================================================== */
 
 (function initLockScreen() {
@@ -15,14 +15,10 @@
 
     if (!lockScreen) return;
 
-    // Check if already unlocked in this session
-    const isUnlocked = sessionStorage.getItem('love_site_unlocked') === 'true';
-    if (isUnlocked) {
-        lockScreen.classList.add('unlocked');
-        document.body.classList.remove('locked-scroll');
-    } else {
-        document.body.classList.add('locked-scroll');
-    }
+    // ALWAYS lock the screen when the page loads!
+    lockScreen.classList.remove('unlocked');
+    lockScreen.style.display = 'flex';
+    document.body.classList.add('locked-scroll');
 
     function updateDots() {
         pinDots.forEach((dot, index) => {
@@ -74,10 +70,10 @@
             // Confetti explosion
             if (typeof confetti === 'function') {
                 confetti({
-                    particleCount: 80,
-                    spread: 70,
+                    particleCount: 100,
+                    spread: 80,
                     origin: { y: 0.6 },
-                    colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffffff']
+                    colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffffff', '#ffd1dc']
                 });
             }
 
@@ -92,7 +88,6 @@
             setTimeout(() => {
                 lockScreen.classList.add('unlocked');
                 document.body.classList.remove('locked-scroll');
-                sessionStorage.setItem('love_site_unlocked', 'true');
                 enteredPin = '';
                 updateDots();
                 pinDots.forEach(dot => dot.classList.remove('success'));
@@ -101,7 +96,7 @@
                     errorMsg.className = 'lock-error-msg';
                 }
                 isProcessing = false;
-            }, 900);
+            }, 800);
 
         } else {
             // Error: Wrong passcode
@@ -123,7 +118,7 @@
                 updateDots();
                 pinDots.forEach(dot => dot.classList.remove('error'));
                 isProcessing = false;
-            }, 800);
+            }, 700);
         }
     }
 
@@ -161,12 +156,12 @@
         }
     });
 
-    // Optional Re-lock button
+    // Re-lock button
     if (relockBtn) {
         relockBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            sessionStorage.removeItem('love_site_unlocked');
             lockScreen.classList.remove('unlocked');
+            lockScreen.style.display = 'flex';
             document.body.classList.add('locked-scroll');
             enteredPin = '';
             updateDots();
