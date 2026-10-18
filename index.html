@@ -21,13 +21,59 @@
     <!-- Background Particle Canvas for Floating Hearts -->
     <canvas id="hearts-canvas"></canvas>
 
-    <!-- Floating Audio Control -->
-    <button id="music-toggle" class="floating-music-btn" aria-label="تشغيل الموسيقى" title="تشغيل الموسيقى 🎵">
-        <span class="music-icon">🎵</span>
-        <span class="music-waves">
-            <span></span><span></span><span></span>
-        </span>
-    </button>
+    <!-- 0. Romantic Passcode Lock Screen (PIN: 1710) -->
+    <div id="lock-screen" class="lock-screen-overlay">
+        <div class="lock-card">
+            <div class="lock-icon-badge">
+                <span class="lock-icon-anim">🔐</span>
+            </div>
+            <h2 class="lock-title">ذكريات حبنا الخاصة ❤️</h2>
+            <p class="lock-subtitle">اكتبي الباسورد عشان تفتحي المفاجأة ✨</p>
+
+            <!-- 4 PIN Dots -->
+            <div class="pin-dots-container">
+                <span class="pin-dot"></span>
+                <span class="pin-dot"></span>
+                <span class="pin-dot"></span>
+                <span class="pin-dot"></span>
+            </div>
+
+            <!-- Error / Success Status Feedback -->
+            <div id="lock-error-msg" class="lock-error-msg"></div>
+
+            <!-- Numeric Keypad -->
+            <div class="keypad-grid">
+                <button type="button" class="keypad-key" data-num="1">1</button>
+                <button type="button" class="keypad-key" data-num="2">2</button>
+                <button type="button" class="keypad-key" data-num="3">3</button>
+                <button type="button" class="keypad-key" data-num="4">4</button>
+                <button type="button" class="keypad-key" data-num="5">5</button>
+                <button type="button" class="keypad-key" data-num="6">6</button>
+                <button type="button" class="keypad-key" data-num="7">7</button>
+                <button type="button" class="keypad-key" data-num="8">8</button>
+                <button type="button" class="keypad-key" data-num="9">9</button>
+                <button type="button" class="keypad-key action-key" data-action="clear" title="مسح">مسح</button>
+                <button type="button" class="keypad-key" data-num="0">0</button>
+                <button type="button" class="keypad-key action-key" data-action="backspace" title="حذف">⌫</button>
+            </div>
+
+            <p class="lock-hint">💡 تلميح: تاريخ يوم مميز في قلوبنا ❤️</p>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control & Re-lock Control -->
+    <div class="floating-controls">
+        <button id="music-toggle" class="floating-music-btn" aria-label="تشغيل الموسيقى" title="تشغيل الموسيقى 🎵">
+            <span class="music-icon">🎵</span>
+            <span class="music-waves">
+                <span></span><span></span><span></span>
+            </span>
+        </button>
+
+        <button id="relock-btn" class="floating-relock-btn" aria-label="قفل الموقع" title="قفل الموقع 🔒">
+            <span class="relock-icon">🔒</span>
+        </button>
+    </div>
 
     <!-- Main Container -->
     <main class="app-container">
@@ -103,7 +149,7 @@
                 <!-- Gallery Navigation Controls -->
                 <div class="gallery-controls">
                     <button id="prev-img-btn" class="nav-btn btn-secondary">Previous</button>
-                    <span id="gallery-counter" class="gallery-counter">1 / 31</span>
+                    <span id="gallery-counter" class="gallery-counter">1 / 44</span>
                     <button id="next-img-btn" class="nav-btn btn-primary">Next ❤️</button>
                 </div>
 
@@ -114,7 +160,43 @@
             </div>
         </section>
 
-        <!-- 4. Interactive Quiz Section -->
+        <!-- 4. Romantic Video Moments Section -->
+        <section class="videos-section">
+            <h2 class="section-title">لحظاتنا بالفيديو 🎬❤️</h2>
+            <p class="section-subtitle">✨ أجمل اللحظات حية بصوتنا وضحكتنا</p>
+
+            <div class="videos-grid">
+                <!-- Video Card 1 -->
+                <div class="card video-card">
+                    <div class="video-container">
+                        <video id="video-1" class="romantic-video" playsinline controls preload="metadata" poster="src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE_still.jpg">
+                            <source src="src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE.MP4" type="video/mp4">
+                            متصفحك لا يدعم تشغيل الفيديو.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">أحلى وأجمل اللحظات سوا 🎥✨</h3>
+                        <p class="video-desc">كل ثانية بنقضيها مع بعض بتفضل ذكرى عايشة في قلبي وعقلي على طول ❤️</p>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 -->
+                <div class="card video-card">
+                    <div class="video-container">
+                        <video id="video-2" class="romantic-video" playsinline controls preload="metadata" poster="src/assets/gemini_generated_video_A41414DF_still.jpg">
+                            <source src="src/assets/gemini_generated_video_54EC7F6C.MP4" type="video/mp4">
+                            متصفحك لا يدعم تشغيل الفيديو.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">حكايتنا في كل خطوة 💖🎬</h3>
+                        <p class="video-desc">ضحكتك ولمعة عينيكي هما أجمل وأعظم نعمة في حياتي 🌹</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Interactive Quiz Section -->
         <section class="quiz-section">
             <div class="card quiz-card" id="quiz-card">
                 <div class="quiz-header">
@@ -147,7 +229,7 @@
             </div>
         </section>
 
-        <!-- 5. Love Letter Sealed Envelope Section -->
+        <!-- 6. Love Letter Sealed Envelope Section -->
         <section class="envelope-section">
             <div class="envelope-wrapper">
                 <div class="envelope-card" id="envelope-card">
@@ -166,7 +248,7 @@
             </div>
         </section>
 
-        <!-- 6. Footer Section -->
+        <!-- 7. Footer Section -->
         <footer class="app-footer">
             <p>صنع بكل الحب 💖 | ذكرياتنا الجميلة</p>
             <a id="whatsapp-share-btn" class="whatsapp-btn" href="#" target="_blank" rel="noopener">
@@ -179,6 +261,7 @@
     <!-- JavaScript Modules -->
     <script src="js/hearts.js?v=2"></script>
     <script src="js/music.js?v=2"></script>
+    <script src="js/lock.js?v=2"></script>
     <script src="js/timer.js?v=2"></script>
     <script src="js/gallery.js?v=2"></script>
     <script src="js/quiz.js?v=2"></script>

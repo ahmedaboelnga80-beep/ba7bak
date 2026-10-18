@@ -1,20 +1,21 @@
 /* ==========================================================================
-   ROMANTIC BACKGROUND MUSIC PLAYER
+   ROMANTIC BACKGROUND MUSIC PLAYER & VIDEO AUDIO SYNC
    ========================================================================== */
 
 (function initMusicPlayer() {
     const musicBtn = document.getElementById('music-toggle');
     if (!musicBtn) return;
 
-    // Create Audio instance with the new romantic song (with cache buster)
+    // Create Audio instance with the romantic song
     const bgAudio = new Audio('src/assets/song.mp3?v=2');
     bgAudio.loop = true;
     bgAudio.volume = 0.7;
 
     let isPlaying = false;
+    let wasPlayingBeforeVideo = false;
 
     function playAudio() {
-        bgAudio.play().then(() => {
+        return bgAudio.play().then(() => {
             isPlaying = true;
             musicBtn.classList.add('playing');
             musicBtn.setAttribute('title', 'إيقاف الموسيقى 🎵');
@@ -34,7 +35,7 @@
     }
 
     musicBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // prevent document click listener from double toggling
+        e.stopPropagation();
         if (isPlaying) {
             pauseAudio();
         } else {
@@ -42,14 +43,54 @@
         }
     });
 
-    // Auto-start audio on first interaction if autoplay policy allows
+    // Expose global controller
+    window.loveMusic = {
+        play: playAudio,
+        pause: pauseAudio,
+        isPlaying: () => isPlaying
+    };
+
+    // Auto-start audio on first interaction only if site is already unlocked
     const enableAutoPlayOnInteraction = () => {
-        if (!isPlaying) {
+        const lockScreen = document.getElementById('lock-screen');
+        const isLocked = lockScreen && !lockScreen.classList.contains('unlocked');
+        if (!isPlaying && !isLocked) {
             playAudio();
         }
     };
 
     document.addEventListener('click', enableAutoPlayOnInteraction, { once: true });
     document.addEventListener('touchstart', enableAutoPlayOnInteraction, { once: true });
+
+    // Sync with Videos: Pause background music when video plays
+    document.addEventListener('DOMContentLoaded', () => {
+        const videos = document.querySelectorAll('video');
+        videos.forEach(video => {
+            video.addEventListener('play', () => {
+                if (isPlaying) {
+                    wasPlayingBeforeVideo = true;
+                    pauseAudio();
+                }
+            });
+
+            video.addEventListener('pause', () => {
+                // If all videos are paused and music was playing before, resume
+                const anyPlaying = Array.from(videos).some(v => !v.paused && !v.ended);
+                if (!anyPlaying && wasPlayingBeforeVideo) {
+                    wasPlayingBeforeVideo = false;
+                    playAudio();
+                }
+            });
+
+            video.addEventListener('ended', () => {
+                const anyPlaying = Array.from(videos).some(v => !v.paused && !v.ended);
+                if (!anyPlaying && wasPlayingBeforeVideo) {
+                    wasPlayingBeforeVideo = false;
+                    playAudio();
+                }
+            });
+        });
+    });
 })();
+
 
