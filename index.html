@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Marhey:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
     <!-- Canvas Confetti for Quiz Victory -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
 
@@ -218,31 +218,28 @@
                 <!-- 3D Flip Card Container -->
                 <div class="flip-card" id="memory-flip-card">
                     <div class="flip-card-inner" id="flip-card-inner">
-                        <!-- Front Side: Image / Video -->
+                        <!-- Front Side: Image -->
                         <div class="flip-card-front">
-                            <img id="gallery-img" src="" alt="Love Memory Photo" loading="lazy">
-                            <video id="gallery-video" class="gallery-video-element" muted playsinline loop autoplay style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-lg);"></video>
+                            <img id="gallery-img" src="src/assets/IMG_4832.PNG" alt="Love Memory Photo">
                             <div class="double-tap-badge">✨ اضغط مرتين لرؤية الرسالة</div>
                         </div>
                         <!-- Back Side: Romantic Note -->
                         <div class="flip-card-back">
                             <div class="back-card-content">
                                 <div class="card-back-icon">💌</div>
-                                <h3 id="gallery-note-title">ذكرى غالية</h3>
-                                <p id="gallery-note-text" class="back-text">رسالة الحب...</p>
+                                <h3 id="gallery-note-title">أجمل النظرات ✨</h3>
+                                <p id="gallery-note-text" class="back-text">كل مرة بشوف عينيكي بحس إني اتولدت من جديد. أنتي أجمل اختيار في حياتي ❤️</p>
                                 <span class="card-back-hint">اضغط مرتين للعودة للصورة 🔄</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Gallery Navigation Controls with Shuffle & Autoplay -->
+                <!-- Gallery Navigation Controls -->
                 <div class="gallery-controls">
-                    <button id="prev-img-btn" class="nav-btn btn-secondary" title="السابق">◀ السابق</button>
-                    <button id="shuffle-btn" class="nav-btn btn-shuffle" title="ترتيب عشوائي للصور والفيديوهات">🔀 عشوائي</button>
-                    <button id="autoplay-btn" class="nav-btn btn-autoplay" title="تشغيل عرض الشرائح تلقائياً">▶️ تشغيل</button>
-                    <span id="gallery-counter" class="gallery-counter">1 / 70</span>
-                    <button id="next-img-btn" class="nav-btn btn-primary" title="التالي">التالي ▶</button>
+                    <button id="prev-img-btn" class="nav-btn btn-secondary">Previous</button>
+                    <span id="gallery-counter" class="gallery-counter">1 / 68</span>
+                    <button id="next-img-btn" class="nav-btn btn-primary">Next ❤️</button>
                 </div>
 
                 <!-- Thumbnail Strip -->
@@ -351,12 +348,12 @@
     </main>
 
     <!-- JavaScript Modules -->
-    <script src="js/hearts.js?v=5"></script>
-    <script src="js/music.js?v=5"></script>
-    <script src="js/lock.js?v=5"></script>
-    <script src="js/timer.js?v=5"></script>
-    <script src="js/gallery.js?v=5"></script>
-    <script src="js/quiz.js?v=5"></script>
-    <script src="js/app.js?v=5"></script>
+    <script src="js/hearts.js?v=6"></script>
+    <script src="js/music.js?v=6"></script>
+    <script src="js/lock.js?v=6"></script>
+    <script src="js/timer.js?v=6"></script>
+    <script src="js/gallery.js?v=6"></script>
+    <script src="js/quiz.js?v=6"></script>
+    <script src="js/app.js?v=6"></script>
 </body>
 </html>

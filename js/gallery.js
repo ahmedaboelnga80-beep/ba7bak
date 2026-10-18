@@ -1,9 +1,9 @@
 /* ==========================================================================
-   OUR LOVELY MEMORIES (INTERACTIVE 3D FLIP GALLERY + RANDOM SHUFFLE & AUTOPLAY)
+   OUR LOVELY MEMORIES (INTERACTIVE DOUBLE-TAP 3D FLIP GALLERY)
    ========================================================================== */
 
 (function initGallery() {
-    const rawItems = [
+    const memoryImages = [
     {
         "src": "src/assets/IMG_4832.PNG",
         "title": "أجمل النظرات ✨",
@@ -343,160 +343,63 @@
         "src": "src/assets/IMG_7725.jpg",
         "title": "حب بلا حدود ♾️",
         "note": "حبنا ملوش نهاية، حب صادق ونقي ومكمل للأبد بإذن الله ❤️"
-    },
-    {
-        "src": "src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE.MP4",
-        "poster": "src/assets/28CF3381-E417-4429-938D-DFF56B33B5FE_still.jpg",
-        "type": "video",
-        "title": "ضحكتنا سوا 🎥✨",
-        "note": "لحظات عفوية جميلة، ضحكتك وصوتك هما سر السعادة ❤️"
-    },
-    {
-        "src": "src/assets/gemini_generated_video_54EC7F6C.MP4",
-        "poster": "src/assets/gemini_generated_video_A41414DF_still.jpg",
-        "type": "video",
-        "title": "حكايتنا في فيديو 💖🎬",
-        "note": "كل فيديو بيفكرني بقد إيه إحنا محظوظين ببعض 🌹"
     }
 ];
 
-    let memoryItems = [...rawItems];
     let currentIndex = 0;
-    let autoplayTimer = null;
-    let isAutoplaying = false;
-
     const flipCard = document.getElementById('memory-flip-card');
     const galleryImg = document.getElementById('gallery-img');
-    const galleryVideo = document.getElementById('gallery-video');
     const noteTitle = document.getElementById('gallery-note-title');
     const noteText = document.getElementById('gallery-note-text');
     const counterEl = document.getElementById('gallery-counter');
     const prevBtn = document.getElementById('prev-img-btn');
     const nextBtn = document.getElementById('next-img-btn');
-    const shuffleBtn = document.getElementById('shuffle-btn');
-    const autoplayBtn = document.getElementById('autoplay-btn');
     const thumbsContainer = document.getElementById('thumbnails-container');
 
     if (!flipCard || !galleryImg) return;
 
     // Render Thumbnails
-    function renderThumbnails() {
-        if (!thumbsContainer) return;
-        thumbsContainer.innerHTML = '';
-        memoryItems.forEach((item, idx) => {
-            const thumbWrap = document.createElement('div');
-            thumbWrap.className = 	humb-wrap ;
-            
-            const img = document.createElement('img');
-            img.src = item.poster || item.src;
-            img.alt = item.title;
-            img.className = 'thumb-item';
-            thumbWrap.appendChild(img);
+    memoryImages.forEach((item, idx) => {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.title;
+        img.className = 'thumb-item ' + (idx === 0 ? 'active' : '');
+        img.addEventListener('click', () => {
+            goToSlide(idx);
+        });
+        thumbsContainer.appendChild(img);
+    });
 
-            if (item.type === 'video') {
-                const badge = document.createElement('span');
-                badge.className = 'thumb-video-badge';
-                badge.textContent = '▶';
-                thumbWrap.appendChild(badge);
+    function updateCardContent() {
+        // Reset flip state
+        flipCard.classList.remove('flipped');
+        
+        const current = memoryImages[currentIndex];
+        galleryImg.src = current.src;
+        if (noteTitle) noteTitle.textContent = current.title;
+        if (noteText) noteText.textContent = current.note;
+        if (counterEl) counterEl.textContent = (currentIndex + 1) + ' / ' + memoryImages.length;
+
+        // Update Thumbnails Active Class
+        const thumbs = thumbsContainer.querySelectorAll('.thumb-item');
+        thumbs.forEach((t, i) => {
+            if (i === currentIndex) {
+                t.classList.add('active');
+                t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+                t.classList.remove('active');
             }
-
-            thumbWrap.addEventListener('click', () => {
-                goToSlide(idx);
-            });
-            thumbsContainer.appendChild(thumbWrap);
         });
     }
 
-    function updateCardContent() {
-        flipCard.classList.remove('flipped');
-        
-        const current = memoryItems[currentIndex];
-        
-        if (current.type === 'video') {
-            if (galleryImg) galleryImg.style.display = 'none';
-            if (galleryVideo) {
-                galleryVideo.style.display = 'block';
-                galleryVideo.src = current.src;
-                galleryVideo.poster = current.poster || '';
-                galleryVideo.muted = true;
-                galleryVideo.play().catch(() => {});
-            }
-        } else {
-            if (galleryVideo) {
-                galleryVideo.pause();
-                galleryVideo.style.display = 'none';
-            }
-            if (galleryImg) {
-                galleryImg.style.display = 'block';
-                galleryImg.src = current.src;
-            }
-        }
-
-        if (noteTitle) noteTitle.textContent = current.title;
-        if (noteText) noteText.textContent = current.note;
-        if (counterEl) counterEl.textContent = ${currentIndex + 1} / ;
-
-        // Update Thumbnails Active Class
-        if (thumbsContainer) {
-            const thumbs = thumbsContainer.querySelectorAll('.thumb-wrap');
-            thumbs.forEach((t, i) => {
-                if (i === currentIndex) {
-                    t.classList.add('active');
-                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } else {
-                    t.classList.remove('active');
-                }
-            });
-        }
-    }
-
     function goToSlide(index) {
-        currentIndex = (index + memoryItems.length) % memoryItems.length;
+        currentIndex = (index + memoryImages.length) % memoryImages.length;
         updateCardContent();
     }
 
-    // Shuffle Array Function (Random Mode)
-    function shuffleGallery() {
-        for (let i = memoryItems.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [memoryItems[i], memoryItems[j]] = [memoryItems[j], memoryItems[i]];
-        }
-        currentIndex = 0;
-        renderThumbnails();
-        updateCardContent();
-
-        if (shuffleBtn) {
-            shuffleBtn.classList.add('btn-sparkle');
-            setTimeout(() => shuffleBtn.classList.remove('btn-sparkle'), 600);
-        }
-    }
-
-    // Autoplay Slideshow
-    function toggleAutoplay() {
-        if (isAutoplaying) {
-            clearInterval(autoplayTimer);
-            isAutoplaying = false;
-            if (autoplayBtn) {
-                autoplayBtn.innerHTML = '▶️ تشغيل';
-                autoplayBtn.classList.remove('active-play');
-            }
-        } else {
-            isAutoplaying = true;
-            if (autoplayBtn) {
-                autoplayBtn.innerHTML = '⏸️ إيقاف';
-                autoplayBtn.classList.add('active-play');
-            }
-            autoplayTimer = setInterval(() => {
-                goToSlide(currentIndex + 1);
-            }, 4500);
-        }
-    }
-
-    // Double Tap Flip Detection
+    // Double Tap / Double Click Flip Detection
     let lastTap = 0;
     flipCard.addEventListener('touchend', (e) => {
-        // If clicking on video controls, don't flip
-        if (e.target.tagName.toLowerCase() === 'video') return;
         const currentTime = new Date().getTime();
         const tapLength = currentTime - lastTap;
         if (tapLength < 300 && tapLength > 0) {
@@ -506,17 +409,23 @@
         lastTap = currentTime;
     });
 
-    flipCard.addEventListener('dblclick', (e) => {
-        if (e.target.tagName.toLowerCase() === 'video') return;
+    flipCard.addEventListener('dblclick', () => {
         flipCard.classList.toggle('flipped');
     });
 
     // Navigation Buttons
-    if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-    if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-    if (shuffleBtn) shuffleBtn.addEventListener('click', shuffleGallery);
-    if (autoplayBtn) autoplayBtn.addEventListener('click', toggleAutoplay);
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            goToSlide(currentIndex - 1);
+        });
+    }
 
-    // Initial Shuffle to fulfill (شغلها عشوائي) on page load!
-    shuffleGallery();
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            goToSlide(currentIndex + 1);
+        });
+    }
+
+    // Initial Render - always starts at index 0 (First photo IMG_4832.PNG)
+    updateCardContent();
 })();
